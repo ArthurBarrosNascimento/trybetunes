@@ -50,6 +50,7 @@ class Login extends Component {
             data-testid="login-name-input"
             value={ name }
             onChange={ this.inputChange }
+            placeholder="Type it your Name"
           />
         </label>
         <button
