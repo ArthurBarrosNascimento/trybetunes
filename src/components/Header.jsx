@@ -9,10 +9,10 @@ class Header extends Component {
       name: '',
     },
     loading: false,
-  }
+  };
 
-  componentDidUpdate() {
-
+  componentDidMount() {
+    this.requestUserAPI();
   }
 
   requestUserAPI = async () => {
@@ -27,7 +27,7 @@ class Header extends Component {
   render() {
     const { user, loading } = this.state;
     return (
-      <div data-testid="header-user-name">
+      <header data-testid="header-component">
         Header
 
         <nav>
@@ -38,7 +38,7 @@ class Header extends Component {
 
         {!loading
           ? <p data-testid="header-user-name">{ user.name}</p> : <Loading />}
-      </div>
+      </header>
     );
   }
 }
