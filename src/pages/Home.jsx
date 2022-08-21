@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Login from './Login';
 import Search from './Search';
 import Album from './Album';
@@ -12,13 +12,15 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <Route exact path="/"><Login /></Route>
-        <Route exact path="/search"><Search /></Route>
-        <Route exact path="/album/:id"><Album /></Route>
-        <Route exact path="/favorites"><Favorites /></Route>
-        <Route exact path="/profile"><Profile /></Route>
-        <Route exact path="/profile/edit"><ProfileEdit /></Route>
-        <Route><NotFond /></Route>
+        <Switch>
+          <Route exact path="/" component={ Login } />
+          <Route exact path="/search" component={ Search } />
+          <Route exact path="/album/:id" component={ Album } />
+          <Route exact path="/favorites" component={ Favorites } />
+          <Route exact path="/profile" component={ Profile } />
+          <Route exact path="/profile/edit" component={ ProfileEdit } />
+          <Route exact component={ NotFond } />
+        </Switch>
       </div>
     );
   }
