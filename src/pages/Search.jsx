@@ -74,7 +74,7 @@ class Search extends Component {
                 { `Resultado de álbuns de: ${artistSearch}`}
               </h2>
             )}
-            {artistSearch.length > 0 && artist.length > 0
+            {artist.length > 0
               ? artist.map(({
                 artistId,
                 artistName,
