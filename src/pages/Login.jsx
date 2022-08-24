@@ -12,6 +12,9 @@ class Login extends Component {
 
   state = {
     name: '',
+    email: '',
+    description: '',
+    image: '',
     loadingApi: false,
     redirectPage: false,
   }
@@ -25,14 +28,26 @@ class Login extends Component {
   }
 
   async saveButton() {
-    const { name } = this.state;
+    const {
+      name,
+      email,
+      description,
+      image,
+    } = this.state;
     this.setState({ loadingApi: true });
-    await createUser({ name });
+    await createUser({ name, email, description, image });
     this.setState({ loadingApi: false, redirectPage: true });
   }
 
   render() {
-    const { name, loadingApi, redirectPage } = this.state;
+    const {
+      name,
+      loadingApi,
+      redirectPage,
+      email,
+      description,
+      image,
+    } = this.state;
     const CHARACTERS_MAX = 3;
 
     if (redirectPage) {
@@ -43,6 +58,7 @@ class Login extends Component {
       <div data-testid="page-login">
         Login
         <label htmlFor="name">
+          Name
           <input
             type="text"
             id="name"
@@ -51,6 +67,40 @@ class Login extends Component {
             value={ name }
             onChange={ this.inputChange }
             placeholder="Type it your Name"
+          />
+        </label>
+        <label htmlFor="email">
+          Email
+          <input
+            type="text"
+            id="email"
+            name="email"
+            placeholder="Type it your Email"
+            onChange={ this.inputChange }
+            value={ email }
+          />
+        </label>
+        <label htmlFor="description">
+          Description
+          <textarea
+            name="description"
+            id="description"
+            cols="30"
+            rows="10"
+            placeholder="Description"
+            onChange={ this.inputChange }
+            value={ description }
+          />
+        </label>
+        <label htmlFor="image">
+          Image
+          <input
+            type="text"
+            id="image"
+            name="image"
+            value={ image }
+            onChange={ this.inputChange }
+            placeholder="image"
           />
         </label>
         <button
