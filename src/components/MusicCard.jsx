@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Loading from './Loading';
-import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs, removeSong } from '../services/favoriteSongsAPI';
 
 class MusicCard extends Component {
   state = {
@@ -17,22 +17,25 @@ class MusicCard extends Component {
     this.setState({ loading: true });
     const songsLocalStorege = await getFavoriteSongs();
 
-    this.setState({ favoritesSongs: songsLocalStorege });
+    this.setState({
+      favoritesSongs: songsLocalStorege,
+
+    });
     this.setState({ loading: false });
   }
 
-  favoriteSong = async (trackId) => {
+  favoriteSong = async (trackId, { target }) => {
     const { album } = this.props;
-
+    const { checked } = target;
     this.setState({ loading: true });
 
     const songFavoriteChecked = album.find((song) => song.trackId === trackId);
-    this.setState((prevState) => ({
-      favoritesSongs: [...prevState.favoritesSongs, songFavoriteChecked],
-    }));
-    await addSong(songFavoriteChecked);
-
-    this.setState({ loading: false });
+    if (checked) {
+      await addSong(songFavoriteChecked);
+    } else {
+      await removeSong(songFavoriteChecked);
+    }
+    this.songsFavorite();
   }
 
   ableChecked = (trackId) => {
@@ -47,7 +50,7 @@ class MusicCard extends Component {
     const { album } = this.props;
     const { loading } = this.state;
 
-    return loading ? <Loading /> : (
+    return (loading ? <Loading /> : (
       <div>
         {album.map(({ previewUrl, trackId, trackName }) => (
           <ul key={ trackId }>
@@ -68,13 +71,13 @@ class MusicCard extends Component {
                 name="favorite-music"
                 data-testid={ `checkbox-music-${trackId}` }
                 checked={ this.ableChecked(trackId) }
-                onChange={ () => this.favoriteSong(trackId) }
+                onChange={ (event) => this.favoriteSong(trackId, event) }
               />
             </label>
           </ul>
         ))}
       </div>
-    );
+    ));
   }
 }
 
